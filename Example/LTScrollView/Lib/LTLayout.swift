@@ -47,6 +47,9 @@ public class LTLayout: NSObject {
     /* 滑块底部线圆角 */
     @objc public var bottomLineCornerRadius: CGFloat = 0.0
     
+    /* 滑块底部线距离底部距离 */
+    @objc public var bottomLineMarginBottom: CGFloat = 6.0
+    
     /* 是否隐藏滑块、底部线*/
     @objc public var isHiddenSlider: Bool = false
     

@@ -70,7 +70,7 @@ public typealias LTDidSelectTitleViewHandle = (Int) -> Void
     }()
     
     private lazy var sliderLineView: UIView = {
-        let sliderLineView = UIView(frame: CGRect(x: layout.lrMargin, y: bounds.height - layout.bottomLineHeight - layout.pageBottomLineHeight, width: 0, height: layout.bottomLineHeight))
+        let sliderLineView = UIView(frame: CGRect(x: layout.lrMargin, y: bounds.height - layout.bottomLineHeight - layout.pageBottomLineHeight - layout.bottomLineMarginBottom, width: 0, height: layout.bottomLineHeight))
         sliderLineView.backgroundColor = layout.bottomLineColor
         return sliderLineView
     }()
@@ -93,6 +93,12 @@ public typealias LTDidSelectTitleViewHandle = (Int) -> Void
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    /* 监听暗黑切换 */
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        glt_selectTitleRGBlColor = getRGBWithColor(layout.titleSelectColor ?? SELECT_BASE_COLOR)
+        let currentButton = glt_buttons[glt_currentIndex]
+        currentButton.setTitleColor(layout.titleSelectColor, for: .normal)
     }
 }
 
@@ -124,7 +130,7 @@ extension LTPageTitleView {
                     glt_lineWidths.append(60)
                     continue
                 }
-                let textW = text.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 8), options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font : layout.titleFont ?? UIFont.systemFont(ofSize: 16)], context: nil).size.width
+                let textW = text.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 8), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : layout.titleFont ?? UIFont.systemFont(ofSize: 16)], context: nil).size.width
                 glt_textWidths.append(textW)
                 glt_lineWidths.append(textW)
             }
@@ -144,7 +150,7 @@ extension LTPageTitleView {
                     continue
                 }
             }
-            let textW = text.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 8), options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font : layout.titleFont ?? UIFont.systemFont(ofSize: 16)], context: nil).size.width
+            let textW = text.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 8), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : layout.titleFont ?? UIFont.systemFont(ofSize: 16)], context: nil).size.width
             if !layout.isAverage {
                 glt_textWidths.append(textW)
             }
